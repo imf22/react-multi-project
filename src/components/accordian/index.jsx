@@ -24,16 +24,13 @@ export default function Accordian(){
     }
 
     function handleMultiSelection(getCurrentId){
-        // setSelected(null);
         let copyMultiple = [...multiple];
         const findIndex = multiple.indexOf(getCurrentId);
 
         if (findIndex === -1) copyMultiple.push(getCurrentId)
         else copyMultiple.splice(findIndex, 1)
-        // if (multiple.find(getCurrentId))
 
         setMultiple(copyMultiple);
-        console.log(copyMultiple)
 
     }
 
@@ -60,11 +57,6 @@ export default function Accordian(){
                                         <div className="content">{dataItem.answer}</div>
                                     )
 
-
-                                    
-                                    // (selected === dataItem.id) || (enableMultiSelection && multiple.indexOf(dataItem.id) !== -1) ?
-                                    // <div className="content">{dataItem.answer}</div> 
-                                    // : null
                                 }
                             </div>
                         )
