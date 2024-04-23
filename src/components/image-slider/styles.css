@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* width: 600px; */
     width: 600px;
     height: 450px;
 }
@@ -14,12 +15,17 @@
     height: 100%;
 }
 
+.hidden-image{
+    display: none;
+}
+
 .arrow {
     position: absolute;
     width: 2rem;
     height: 2rem;
     color: white;
     filter: drop-shadow(0 0 5px #555);
+    cursor: pointer;
 }
 
 .arrow-left {
@@ -36,7 +42,7 @@
     bottom: 1rem;
 }
 
-.current-indicator {
+.current-indicator, .inactive-indicator{
     background-color: white;
     height: 15px;
     width: 15px;
@@ -45,4 +51,8 @@
     outline: none;
     margin: 0 0.2rem;
     cursor: pointer;
+}
+
+.inactive-indicator {
+    background-color: #777;
 }
