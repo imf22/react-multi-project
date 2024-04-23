@@ -3,14 +3,22 @@ import { BsArrowLeftCircleFill, BsArrowRightCircleFill} from "react-icons/bs";
 import './styles.css';
 
 export default function ImageSlider({ url, limit, page }) {
-    const [images, setImages] = useState([]);
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [errorMsg, setErrorMsg] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [images, setImages] = useState([]);                   // Images retrived from picsum API
+    const [currentSlide, setCurrentSlide] = useState(0);        // The Currently Active Image
+    const [errorMsg, setErrorMsg] = useState(null);             // Contains the error message should API return error
+    const [loading, setLoading] = useState(false);              // Tracks if API has yet to return a response
+
+    function handlePrevious(){
+        setCurrentSlide(currentSlide === 0 ? images.length - 1 : currentSlide - 1)
+    }
+
+    function handleNext(){
+        setCurrentSlide(currentSlide === (images.length - 1) ? 0 : currentSlide + 1)
+    }
 
     async function fetchImages(getUrl) {
         try {
-            // https://picsum.photos/v2/list?page=1&limit=5
+            // FORMAT: https://picsum.photos/v2/list?page=1&limit=5
             const response = await fetch(`${getUrl}?page=${page}&limit=${limit}`);
             const data = await response.json();
 
@@ -25,14 +33,7 @@ export default function ImageSlider({ url, limit, page }) {
         }
     }
 
-    function handlePrevious(){
-        setCurrentSlide(currentSlide === 0 ? images.length - 1 : currentSlide - 1)
-    }
-
-    function handleNext(){
-        setCurrentSlide(currentSlide === (images.length - 1) ? 0 : currentSlide + 1)
-
-    }
+    
 
     useEffect(() => {
         if (url !== '') fetchImages(url);
@@ -45,6 +46,7 @@ export default function ImageSlider({ url, limit, page }) {
         return <div>Loading data...</div>;
     }
 
+    // Displays API error
     if (errorMsg !== null) {
         return <div>Error occured! {errorMsg}</div>
     }
@@ -55,20 +57,20 @@ export default function ImageSlider({ url, limit, page }) {
             {
                 images && images.length ?
                     images.map((imageItem) => (
-                        // console.log(imageItem.id, "and", currentSlide.toString())
-                        // imageItem.id === currentSlide.toString() ? 
                         <img
                             key={imageItem.id}
                             src={imageItem.download_url}
                             alt={imageItem.download_url}
                             className={imageItem.id === currentSlide.toString() 
-                                ? "current-image" 
-                                : "current-image hidden-image"}
+                                ? "current-image"                   // Display Current Images
+                                : "current-image hidden-image"}     // Apply hidden styling 
                         />
-                        
-                        // : null
                     ))
                     : null}
+
+                    {/* By applying a hidden styling instead of simply not returning a jsx element,
+                    the images are all loaded at once upon they have been received and will not
+                    have to load each time they are displayed*/}
             <BsArrowRightCircleFill onClick={handleNext} className="arrow arrow-right" />
             <span className="circle-indicators">
                 {
