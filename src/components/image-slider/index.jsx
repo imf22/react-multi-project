@@ -16,6 +16,12 @@ export default function ImageSlider({ url, limit, page }) {
         setCurrentSlide(currentSlide === (images.length - 1) ? 0 : currentSlide + 1)
     }
 
+    function handleJumpTo(jumpToIndex){
+        setCurrentSlide(jumpToIndex);
+    }
+
+
+
     async function fetchImages(getUrl) {
         try {
             // FORMAT: https://picsum.photos/v2/list?page=1&limit=5
@@ -77,6 +83,7 @@ export default function ImageSlider({ url, limit, page }) {
                     images && images.length ?
                     images.map((_,index) => <button
                     key={index}
+                    onClick={()=> handleJumpTo(index)}
                     className={index === currentSlide
                         ? "current-indicator" 
                         : "current-indicator inactive-indicator"}>
