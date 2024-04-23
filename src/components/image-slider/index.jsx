@@ -25,6 +25,15 @@ export default function ImageSlider({ url, limit, page }) {
         }
     }
 
+    function handlePrevious(){
+        setCurrentSlide(currentSlide === 0 ? images.length - 1 : currentSlide - 1)
+    }
+
+    function handleNext(){
+        setCurrentSlide(currentSlide === (images.length - 1) ? 0 : currentSlide + 1)
+
+    }
+
     useEffect(() => {
         if (url !== '') fetchImages(url);
     }, [url]);
@@ -42,25 +51,33 @@ export default function ImageSlider({ url, limit, page }) {
 
     return (
         <div className="container">
-            <BsArrowLeftCircleFill className="arrow arrow-left" />
+            <BsArrowLeftCircleFill onClick={handlePrevious} className="arrow arrow-left" />
             {
                 images && images.length ?
                     images.map((imageItem) => (
+                        // console.log(imageItem.id, "and", currentSlide.toString())
+                        // imageItem.id === currentSlide.toString() ? 
                         <img
                             key={imageItem.id}
                             src={imageItem.download_url}
                             alt={imageItem.download_url}
-                            className="current-image"
+                            className={imageItem.id === currentSlide.toString() 
+                                ? "current-image" 
+                                : "current-image hidden-image"}
                         />
+                        
+                        // : null
                     ))
                     : null}
-            <BsArrowRightCircleFill className="arrow arrow-right" />
+            <BsArrowRightCircleFill onClick={handleNext} className="arrow arrow-right" />
             <span className="circle-indicators">
                 {
                     images && images.length ?
                     images.map((_,index) => <button
                     key={index}
-                    className="current-indicator">
+                    className={index === currentSlide
+                        ? "current-indicator" 
+                        : "current-indicator inactive-indicator"}>
                     </button>)
                     : null
                 }
