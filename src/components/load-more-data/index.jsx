@@ -38,7 +38,7 @@ export default function LoadMoreData(){
 
     useEffect (()=> {
         if(products && products.length === 100) setDisableButton(true);
-    })
+    }, [products])
 
     if (loading){
         return <div>Content Loading Please wait...</div>
